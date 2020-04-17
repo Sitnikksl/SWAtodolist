@@ -1,6 +1,6 @@
 <template>
     <div class="task-block">
-        <a href="#" class="add-task"></a>
+        <a href="#" class="add-task" @click='showModal'></a>
         <div class="task-container">
             <ul>
                 <li v-for='item in tasks' :key='item.task'>
@@ -46,6 +46,10 @@
                 </li>
             </ul>
         </div>
+        <div class="add-task-modal" v-if='modalVisible'>
+            <h3>Текст модального окна</h3>
+            <a href="#" class="close-btn" @click='close'></a>
+        </div>
     </div>
 </template>
 
@@ -79,12 +83,19 @@ export default {
                }
            ],
            isSubtask: false,
-           subVisible: true
+           subVisible: false,
+           modalVisible: false
         }
     },
     methods:{
         showSub: function(){
             this.subVisible = !this.subVisible;
+        },
+        showModal: function(){
+            this.modalVisible = !this.modalVisible;
+        },
+        close: function(){
+            this.modalVisible = !this.modalVisible;
         }
     }
 }
@@ -182,5 +193,25 @@ export default {
     }
     .sub-task__right{
         display: flex;
+    }
+    .add-task-modal{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 600px;
+        height: 300px;
+        background-color: #fff;
+        border-radius: 5%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .close-btn{
+        width: 50px;
+        height: 50px;
+        display: block;
+        background-image: url('../assets/trash 2.png');
     }
 </style>
