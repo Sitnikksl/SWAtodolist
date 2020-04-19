@@ -4,8 +4,8 @@
         <div class="task-container">
             <ul>
                 <li v-for='item in tasks' :key='item.task'>
-                    <a href="#" class="task" @click='showSub'>
-                        <div class="task-left">
+                    <div href="#" class="task">
+                        <div class="task-left" @click='showSub'>
                             <h3 class="task-name">{{item.task}}</h3>
                             <div class="task-bottom">
                                 <p class="task-date">{{ item.date}}</p>
@@ -17,7 +17,7 @@
                             <button class="edit btn"></button>
                             <button class="delete btn"></button>
                         </div>
-                    </a>
+                    </div>
                     <ul v-if="subVisible">
                         <li class="sub-task" v-for='temp in item.subtasks' :key='temp.subtask'>
                             <div class="sub-task__left">
@@ -47,7 +47,10 @@
             </ul>
         </div>
         <div class="add-task-modal" v-if='modalVisible'>
-            <h3>Текст модального окна</h3>
+            <input type="text" placeholder='Введите название задачи' ref="taskName" v-model="taskName">
+            <input type="text" placeholder='Укажите срочность'>
+            <textarea name="" id="" cols="30" rows="10" placeholder="Добавьте описание"></textarea>
+            <button @click='addTask'>Добавить</button>
             <a href="#" class="close-btn" @click='close'></a>
         </div>
     </div>
@@ -60,6 +63,7 @@ export default {
            tasks: [
                {task: 'Задача1',
                 date: '10/04/2020',
+                subVisible: true,
                 subtasks: [
                     {
                         subtask: 'Подзадача 1'
@@ -82,20 +86,23 @@ export default {
                 ],
                }
            ],
-           isSubtask: false,
-           subVisible: false,
+            taskName: '',
            modalVisible: false
         }
     },
     methods:{
         showSub: function(){
-            this.subVisible = !this.subVisible;
+           this.subVisible = !this.subVisible;
+           console.log(this.subVisible)
         },
         showModal: function(){
             this.modalVisible = !this.modalVisible;
         },
         close: function(){
             this.modalVisible = !this.modalVisible;
+        },
+        addTask: function(){
+           this.tasks.push(this.taskName)
         }
     }
 }
@@ -136,6 +143,7 @@ export default {
     }
     .task-left{
         padding: 54px 0 31px 55px;
+        cursor: pointer;
     }
     .task-right{
         margin-right: 44px;
